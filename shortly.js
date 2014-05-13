@@ -23,6 +23,28 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+app.get('/login', function(request, response){
+  response.render('login');
+});
+
+app.get('/signup', function(req, res){
+  res.render('signup');
+});
+
+app.post('/login', function(req, res){
+  console.log(req.body);
+  Users.hashPassword(req.body.password, function(hash) {
+    console.log('got it', hash);
+  });
+  // invoke a function inside collection.users (req)
+  //  if that user is validated
+  //    serve the links page
+  //  else
+  //    wrong password error
+
+  res.end();
+});
+
 app.get('/create', function(req, res) {
   res.render('index');
 });
@@ -30,7 +52,7 @@ app.get('/create', function(req, res) {
 app.get('/links', function(req, res) {
   Links.reset().fetch().then(function(links) {
     res.send(200, links.models);
-  })
+  });
 });
 
 app.post('/links', function(req, res) {
