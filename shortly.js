@@ -10,6 +10,7 @@ var Link = require('./app/models/link');
 var Click = require('./app/models/click');
 
 var login = require('./lib/login');
+var signup = require('./lib/signup');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.get('/login', function(request, response){
 
 app.get('/signup', function(req, res){
   res.render('signup');
+
 });
 
 app.post('/login', function(req, res){
@@ -47,6 +49,12 @@ app.post('/login', function(req, res){
   //  else
   //    wrong password error
 
+});
+
+app.post('/signup', function(req, res){
+  //invoke a function, passing req, res
+  debugger;
+  signup.createUser(req, res);
 });
 
 app.get('/create', function(req, res) {
