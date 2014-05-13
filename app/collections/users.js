@@ -24,11 +24,15 @@ Users.hashPassword = function(password, callback){
   });
 };
 
-Users.checkPassword = function(username, hash, callback){
+Users.checkPassword = function(userPassword, targetPassword, callback){
   //check if password matches at username
   //return true/false accrodingly
   // Users
+  return userPassword === targetPassword;
+
 };
+
+
 
 module.exports = Users;
 

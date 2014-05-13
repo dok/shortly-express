@@ -9,6 +9,8 @@ var Links = require('./app/collections/links');
 var Link = require('./app/models/link');
 var Click = require('./app/models/click');
 
+var login = require('./lib/login');
+
 var app = express();
 
 app.configure(function() {
@@ -32,17 +34,19 @@ app.get('/signup', function(req, res){
 });
 
 app.post('/login', function(req, res){
-  console.log(req.body);
-  Users.hashPassword(req.body.password, function(hash) {
-    console.log('got it', hash);
-  });
+  login.handleLogin(req, res);
+
+  //Users.doPassWordyShit(req, function(res){
+  //if(res)//serve link
+  //else serve wrong password page
+  //})
+  //
   // invoke a function inside collection.users (req)
   //  if that user is validated
   //    serve the links page
   //  else
   //    wrong password error
 
-  res.end();
 });
 
 app.get('/create', function(req, res) {
