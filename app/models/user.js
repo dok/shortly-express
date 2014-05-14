@@ -8,6 +8,7 @@ var User = db.Model.extend({
   initialize: function(){
     var that = this;
     var password = this.get('password');
+    console.log('pwd: ', password);
 
     bcrypt.hash(password, null, null, function(err, hash){
       console.log('user pwd hash: ', hash);

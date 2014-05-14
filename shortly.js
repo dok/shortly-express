@@ -9,55 +9,36 @@ var Links = require('./app/collections/links');
 var Link = require('./app/models/link');
 var Click = require('./app/models/click');
 
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
 var login = require('./lib/login');
 var signup = require('./lib/signup');
 
 var app = express();
+app.use(cookieParser());
+app.use(session({
+  secret: 'keyboard cat',
+  key: 'sid',
+  proxy: true
+}));
+
+
+
 
 app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(partials());
-  app.use(express.bodyParser())
+  app.use(express.bodyParser());
   app.use(express.static(__dirname + '/public'));
 });
 
-app.get('/', function(req, res) {
+app.get('/', util.restrict, function(req, res) {
   res.render('index');
 });
 
-app.get('/login', function(request, response){
-  response.render('login');
-});
-
-app.get('/signup', function(req, res){
-  res.render('signup');
-
-});
-
-app.post('/login', function(req, res){
-  login.handleLogin(req, res);
-
-  //Users.doPassWordyShit(req, function(res){
-  //if(res)//serve link
-  //else serve wrong password page
-  //})
-  //
-  // invoke a function inside collection.users (req)
-  //  if that user is validated
-  //    serve the links page
-  //  else
-  //    wrong password error
-
-});
-
-app.post('/signup', function(req, res){
-  //invoke a function, passing req, res
-  debugger;
-  signup.createUser(req, res);
-});
-
-app.get('/create', function(req, res) {
+app.get('/create', util.restrict, function(req, res) {
   res.render('index');
 });
 
@@ -104,7 +85,21 @@ app.post('/links', function(req, res) {
 // Write your authentication routes here
 /************************************************************/
 
+app.get('/login', function(request, response){
+  response.render('login');
+});
 
+app.get('/signup', function(req, res){
+  res.render('signup');
+});
+
+app.post('/login', function(req, res){
+  login.handleLogin(req, res);
+});
+
+app.post('/signup', function(req, res){
+  signup.createUser(req, res);
+});
 
 /************************************************************/
 // Handle the wildcard route last - if all other routes fail
