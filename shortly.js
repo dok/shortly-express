@@ -101,6 +101,10 @@ app.post('/signup', function(req, res){
   signup.createUser(req, res);
 });
 
+app.get('/logout', function(req, res) {
+  res.render('logout');
+});
+
 /************************************************************/
 // Handle the wildcard route last - if all other routes fail
 // assume the route is a short code and try and handle it here.
